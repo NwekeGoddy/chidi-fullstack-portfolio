@@ -1,4 +1,14 @@
-export type Project = { title: string; category: string; description: string; image: string; tech: string[]; github?: string; live?: string; featured?: boolean; features: string[]; };
+export type Project = {
+  title: string;
+  category: string;
+  description: string;
+  image: string;
+  tech: string[];
+  github?: string;
+  live?: string;
+  featured?: boolean;
+  features: string[];
+};
 
 export const allProjects: Project[] = [
   {
@@ -38,7 +48,25 @@ export const allProjects: Project[] = [
       "Admin dashboard",
     ],
   },
-
+  {
+    title: "Grace Kpou",
+    category: "E-Commerce & Fashion",
+    description:
+      "A thoughtfully designed e-commerce platform for a modern lifestyle brand inspired by African heritage. Built on Shopify, the website offers a seamless shopping experience for curated African print apparel and home goods. It features comprehensive product collections, secure purchasing, blog content, and clear policy pages, all while communicating a brand ethos of quality craftsmanship and intentional design.",
+    image: "/images/gracekpou.png",
+    tech: ["Shopify", "Liquid", "Tailwind CSS"],
+    github: "",
+    live: "https://gracekpou.org/",
+    features: [
+      "E-commerce storefront",
+      "Curated product collections",
+      "Secure shopping cart & checkout",
+      "Blog & editorial content",
+      "Contact & inquiry forms",
+      "Policy & terms pages",
+      "Responsive mobile experience",
+    ],
+  },
   {
     title: "Hivenify",
     category: "Advertising Platform",
@@ -76,23 +104,23 @@ export const allProjects: Project[] = [
     ],
   },
 
-  {
-    title: "Qooks",
-    category: "Startup / Waitlist",
-    description:
-      "A modern waitlist platform for a UK-based grocery startup, designed to build early customer interest ahead of launch. The experience introduces the grocery service, communicates its value, and provides a streamlined way for prospective customers to join the waitlist.",
-    image: "/images/qooks.png",
-    tech: ["React", "Next.js", "Tailwind CSS"],
-    github: "",
-    live: "https://qooqs.co.uk/",
-    features: [
-      "Pre-launch experience",
-      "Waitlist journey",
-      "Responsive interface",
-      "Startup landing page",
-      "Mobile-first design",
-    ],
-  },
+  // {
+  //   title: "Qooks",
+  //   category: "Startup / Waitlist",
+  //   description:
+  //     "A modern waitlist platform for a UK-based grocery startup, designed to build early customer interest ahead of launch. The experience introduces the grocery service, communicates its value, and provides a streamlined way for prospective customers to join the waitlist.",
+  //   image: "/images/qooks.png",
+  //   tech: ["React", "Next.js", "Tailwind CSS"],
+  //   github: "",
+  //   live: "https://qooqs.co.uk/",
+  //   features: [
+  //     "Pre-launch experience",
+  //     "Waitlist journey",
+  //     "Responsive interface",
+  //     "Startup landing page",
+  //     "Mobile-first design",
+  //   ],
+  // },
 
   {
     title: "Trendz Social",
@@ -120,7 +148,7 @@ export const allProjects: Project[] = [
     image: "/images/sixteensands.png",
     tech: ["React", "Node.js", "PostgreSQL", "Stripe"],
     github: "https://github.com/NwekeGoddy/sixteensands",
-    live: "https://sixteensands.netlify.app/",
+    live: "https://sixteeensands.netlify.app/",
     features: [
       "Company profile",
       "Research presentation",
@@ -172,7 +200,7 @@ export const allProjects: Project[] = [
     category: "AI / Food",
     description:
       "An interactive recipe discovery and meal planning platform designed to help users discover new meals, explore recipes, and plan what to cook based on their preferences. The application features AI-powered recommendations for more personalized recipe suggestions.",
-    image: "/images/food-fusion.JPG",
+    image: "/images/food-fusion.png",
     tech: ["React", "TypeScript", "Tailwind CSS", "Firebase"],
     github: "https://github.com/NwekeGoddy/foodfusion",
     live: "https://food-fusion.netlify.app/",
@@ -190,7 +218,7 @@ export const allProjects: Project[] = [
     category: "E-commerce UI",
     description:
       "A modern e-commerce interface project created to explore and practice polished, responsive online shopping experiences. The project focuses on clean product presentation, intuitive navigation, reusable components, and a user-friendly shopping interface.",
-    image: "/images/myshup.jpg",
+    image: "/images/myshup.png",
     tech: ["Next.js", "TypeScript", "MongoDB", "Tailwind CSS"],
     github: "https://github.com/NwekeGoddy/totalitycorp-frontend-challenge",
     live: "https://myshup.netlify.app/",
@@ -208,7 +236,7 @@ export const allProjects: Project[] = [
     category: "Real Estate",
     description:
       "A lightweight property management web application designed to provide a simple and organized interface for managing and viewing real estate information. The project focuses on clean navigation, structured property information, and a responsive user experience.",
-    image: "/images/estatemanage.PNG",
+    image: "/images/estate-manage.png",
     tech: ["Next.js", "TypeScript"],
     github: "https://github.com/NwekeGoddy/Shortly",
     live: "https://estatemanage.netlify.app/",

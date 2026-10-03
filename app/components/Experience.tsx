@@ -1,8 +1,8 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import {
   FaBriefcase,
   FaCalendarAlt,
@@ -80,7 +80,7 @@ const experiences = [
     current: false,
     achievements: [
       'Developed and implemented a "Wall of Fame", showcasing the achievements and contributions of current and former developers.',
-      "Utilized modern web development technologies such as React, and tailwind, resulting in a visually appealing and user-friendly website.",
+      "Utilized modern web development technologies such as React and Tailwind CSS, resulting in a visually appealing and user-friendly website.",
       "Collaborated with cross-functional teams, including designers and development team, to gather requirements and ensure alignment with brand guidelines.",
     ],
     tech: ["React", "Tailwind CSS", "JavaScript", "Git", "Figma"],
@@ -126,9 +126,27 @@ export function Experience() {
   });
 
   const [activeTab, setActiveTab] = useState(0);
+  const currentExperience = experiences[activeTab];
+  const tabsRef = useRef<(HTMLButtonElement | null)[]>([]);
+
+  // Auto-scroll the active tab into view on mobile
+  useEffect(() => {
+    const activeBtn = tabsRef.current[activeTab];
+    if (activeBtn) {
+      activeBtn.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+        inline: "center",
+      });
+    }
+  }, [activeTab]);
 
   return (
-    <section id="experience" className="section-padding" ref={ref}>
+    <section
+      id="experience"
+      className="section-padding overflow-hidden"
+      ref={ref}
+    >
       <div className="container-custom">
         <motion.div
           initial="hidden"
@@ -136,179 +154,153 @@ export function Experience() {
           variants={fadeInUp}
           transition={{ duration: 0.6, ease: "easeOut" }}
         >
-          <h2 className="section-title mb-12">
+          <h2 className="section-title mb-8 lg:mb-12">
             <span className="section-number">02.</span>
             Where I&apos;ve Worked
             <span className="section-line" />
           </h2>
 
-          <div className="grid lg:grid-cols-12 gap-8">
-            {/* Company Tabs - Desktop */}
-            <div className="lg:col-span-3">
-              <div className="flex lg:flex-col overflow-x-auto lg:overflow-x-visible gap-2 lg:gap-0">
-                {experiences.map((exp, index) => (
-                  <button
-                    key={exp.id}
-                    onClick={() => setActiveTab(index)}
-                    className={`px-4 py-3 text-left font-mono text-sm whitespace-nowrap lg:whitespace-normal transition-all duration-300 border-l-2 ${
-                      activeTab === index
-                        ? "border-accent text-accent bg-accent/5"
-                        : "border-transparent text-text-secondary hover:text-accent hover:bg-accent/5"
-                    }`}
-                  >
-                    {exp.company}
-                  </button>
-                ))}
+          <div className="grid lg:grid-cols-12 gap-6 lg:gap-8 min-w-0">
+            {/* Mobile Scrollable Pill Strip (< lg) */}
+            <div className="block lg:hidden w-full overflow-x-auto pb-2 scrollbar-none">
+              <div className="flex gap-2 w-max px-1">
+                {experiences.map((exp, index) => {
+                  const isActive = activeTab === index;
+                  return (
+                    <button
+                      key={exp.id}
+                      ref={(el) => {
+                        tabsRef.current[index] = el;
+                      }}
+                      onClick={() => setActiveTab(index)}
+                      className={`relative px-4 py-2 rounded-full font-mono text-xs transition-all duration-300 shrink-0 ${
+                        isActive
+                          ? "text-(--accent-primary) bg-[var(--accent-border)]/10 border border-(--accent-border)/30 font-medium"
+                          : "text-(--text-secondary) bg-[var(--accent-border)]/5 border border-transparent hover:text-(--accent-primary)"
+                      }`}
+                    >
+                      {exp.company}
+                    </button>
+                  );
+                })}
               </div>
             </div>
 
-            {/* Experience Details */}
-            <div className="lg:col-span-9">
-              <motion.div
-                key={activeTab}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4 }}
-                className="space-y-4"
+            {/* Desktop Side Tabs (>= lg) */}
+            <div className="hidden lg:block lg:col-span-3">
+              <div
+                role="tablist"
+                aria-label="Job experience tabs"
+                className="flex flex-col border-l-2 border-(--accent-border)/10"
               >
-                {/* Header */}
-                <div>
-                  <h3 className="text-xl font-semibold text-text-primary">
-                    {experiences[activeTab].role}{" "}
-                    <span className="text-accent">
-                      @ {experiences[activeTab].company}
-                    </span>
-                  </h3>
+                {experiences.map((exp, index) => {
+                  const isActive = activeTab === index;
+                  return (
+                    <button
+                      key={exp.id}
+                      role="tab"
+                      aria-selected={isActive}
+                      aria-controls={`panel-${exp.id}`}
+                      id={`tab-${exp.id}`}
+                      onClick={() => setActiveTab(index)}
+                      className={`px-4 py-3 text-left font-mono text-sm transition-all duration-300 border-l-2 -ml-[2px] ${
+                        isActive
+                          ? "border-[var(--accent-primary)] text-(--accent-primary) bg-[var(--accent-border)]/5"
+                          : "border-transparent text-(--text-secondary) hover:text-(--accent-primary) hover:bg-[var(--accent-border)]/5"
+                      }`}
+                    >
+                      {exp.company}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
 
-                  <div className="flex flex-wrap gap-4 mt-2 text-text-secondary text-sm">
-                    <span className="flex items-center gap-2">
-                      <FaBuilding className="w-3 h-3" />
-                      {experiences[activeTab].company}
-                    </span>
-                    <span className="flex items-center gap-2">
-                      <FaMapMarkerAlt className="w-3 h-3" />
-                      {experiences[activeTab].location}
-                    </span>
-                    <span className="flex items-center gap-2">
-                      <FaCalendarAlt className="w-3 h-3" />
-                      {experiences[activeTab].startDate} -{" "}
-                      {experiences[activeTab].current
-                        ? "Present"
-                        : experiences[activeTab].endDate}
-                    </span>
-                    {experiences[activeTab].current && (
-                      <span className="px-2 py-0.5 text-xs font-mono bg-accent/10 text-accent rounded-full">
-                        Current
+            {/* Experience Content Card */}
+            <div className="lg:col-span-9 min-w-0">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={currentExperience.id}
+                  id={`panel-${currentExperience.id}`}
+                  role="tabpanel"
+                  aria-labelledby={`tab-${currentExperience.id}`}
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -12 }}
+                  transition={{ duration: 0.25 }}
+                  className="space-y-4"
+                >
+                  {/* Title & Metadata */}
+                  <div>
+                    <h3 className="text-lg sm:text-xl font-semibold text-(--text-secondary) leading-tight">
+                      {currentExperience.role}{" "}
+                      <span className="text-(--accent-primary) block sm:inline">
+                        @ {currentExperience.company}
                       </span>
-                    )}
-                  </div>
-                </div>
+                    </h3>
 
-                {/* Achievements - Using direct animation props instead of variants */}
-                <ul className="space-y-2">
-                  {experiences[activeTab].achievements.map(
-                    (achievement, idx) => (
+                    <div className="flex flex-wrap gap-x-4 gap-y-2 mt-2 text-(--text-secondary)  text-xs sm:text-sm">
+                      <span className="flex items-center gap-1.5">
+                        <FaBuilding className="w-3 h-3 text-(--accent-primary) shrink-0" />
+                        {currentExperience.company}
+                      </span>
+                      <span className="flex items-center gap-1.5">
+                        <FaMapMarkerAlt className="w-3 h-3 text-(--accent-primary) shrink-0" />
+                        {currentExperience.location}
+                      </span>
+                      <span className="flex items-center gap-1.5">
+                        <FaCalendarAlt className="w-3 h-3 text-(--accent-primary) shrink-0" />
+                        {currentExperience.startDate} -{" "}
+                        {currentExperience.current
+                          ? "Present"
+                          : currentExperience.endDate}
+                      </span>
+                      {currentExperience.current && (
+                        <span className="px-2 py-0.5 text-[10px] sm:text-xs font-mono bg-[var(--accent-border)]/10 text-(--accent-primary) rounded-full border border-(--accent-border)/20">
+                          Current
+                        </span>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Achievements */}
+                  <ul className="space-y-2.5 pt-2">
+                    {currentExperience.achievements.map((achievement, idx) => (
                       <motion.li
                         key={idx}
-                        initial={{ opacity: 0, x: -20 }}
+                        initial={{ opacity: 0, x: -8 }}
                         animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.4, delay: idx * 0.08 }}
-                        className="text-text-secondary text-sm flex items-start gap-3"
+                        transition={{ duration: 0.2, delay: idx * 0.04 }}
+                        className="text-(--text-secondary)  text-xs sm:text-sm flex items-start gap-2.5 leading-relaxed"
                       >
-                        <span className="text-accent mt-1">▹</span>
+                        <span className="text-(--accent-primary) mt-0.5 select-none shrink-0">
+                          ▹
+                        </span>
                         <span>{achievement}</span>
                       </motion.li>
-                    )
-                  )}
-                </ul>
-
-                {/* Tech Stack */}
-                <div className="pt-4">
-                  <h4 className="text-sm font-semibold text-accent mb-2 font-mono flex items-center gap-2">
-                    <FaBriefcase className="w-3 h-3" />
-                    Tech Stack
-                  </h4>
-                  <div className="flex flex-wrap gap-2">
-                    {experiences[activeTab].tech.map((tech) => (
-                      <motion.span
-                        key={tech}
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.3, delay: 0.2 }}
-                        className="px-3 py-1 text-xs font-mono text-accent/80 bg-accent/5 rounded-full border border-accent/20"
-                      >
-                        {tech}
-                      </motion.span>
                     ))}
+                  </ul>
+
+                  {/* Tech Stack */}
+                  <div className="pt-3">
+                    <h4 className="text-xs sm:text-sm font-semibold text-(--accent-primary) mb-2.5 font-mono flex items-center gap-2">
+                      <FaBriefcase className="w-3 h-3" />
+                      Tech Stack
+                    </h4>
+                    <div className="flex flex-wrap gap-1.5 sm:gap-2">
+                      {currentExperience.tech.map((tech) => (
+                        <span
+                          key={tech}
+                          className="px-2.5 py-1 text-[11px] sm:text-xs font-mono text-(--accent-primary) bg-[var(--accent-bg)] rounded-full border border-(--accent-border)"
+                        >
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              </motion.div>
+                </motion.div>
+              </AnimatePresence>
             </div>
-          </div>
-
-          {/* Mobile View - All Experiences */}
-          <div className="lg:hidden mt-8 space-y-8">
-            {experiences.map((exp, index) => (
-              <motion.div
-                key={exp.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={inView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="bg-dark-200 rounded-lg p-6 space-y-4"
-              >
-                <div>
-                  <h3 className="text-lg font-semibold text-text-primary">
-                    {exp.role}{" "}
-                    <span className="text-accent">@ {exp.company}</span>
-                  </h3>
-
-                  <div className="flex flex-wrap gap-3 mt-2 text-text-secondary text-xs">
-                    <span className="flex items-center gap-1">
-                      <FaMapMarkerAlt className="w-3 h-3" />
-                      {exp.location}
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <FaCalendarAlt className="w-3 h-3" />
-                      {exp.startDate} - {exp.current ? "Present" : exp.endDate}
-                    </span>
-                    {exp.current && (
-                      <span className="px-2 py-0.5 text-xs font-mono bg-accent/10 text-accent rounded-full">
-                        Current
-                      </span>
-                    )}
-                  </div>
-                </div>
-
-                <ul className="space-y-2">
-                  {exp.achievements.map((achievement, idx) => (
-                    <li
-                      key={idx}
-                      className="text-text-secondary text-sm flex items-start gap-3"
-                    >
-                      <span className="text-accent mt-1">▹</span>
-                      <span>{achievement}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                <div>
-                  <h4 className="text-sm font-semibold text-accent mb-2 font-mono flex items-center gap-2">
-                    <FaBriefcase className="w-3 h-3" />
-                    Tech Stack
-                  </h4>
-                  <div className="flex flex-wrap gap-2">
-                    {exp.tech.map((tech) => (
-                      <span
-                        key={tech}
-                        className="px-3 py-1 text-xs font-mono text-accent/80 bg-accent/5 rounded-full border border-accent/20"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </motion.div>
-            ))}
           </div>
         </motion.div>
       </div>

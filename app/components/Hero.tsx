@@ -77,7 +77,7 @@ export function Hero() {
         >
           <motion.p
             variants={itemVariants}
-            className="font-mono text-[var(--accent-primary)] text-sm md:text-base mt-8 md:mt-0 mb-4 tracking-wider"
+            className="font-mono text-(--accent-primary) text-sm md:text-base mt-8 md:mt-0 mb-4 tracking-wider"
           >
             <span className="inline-block animate-pulse-slow">✦</span> Hi, my
             name is
@@ -85,20 +85,20 @@ export function Hero() {
 
           <motion.h1
             variants={itemVariants}
-            className="text-5xl md:text-7xl lg:text-8xl font-bold text-[var(--text-primary)] mb-4 leading-tight"
+            className="text-5xl md:text-7xl lg:text-8xl font-bold text-(--text-primary) mb-4 leading-tight"
           >
             Chidi Nweke.
-            <span className="text-[var(--accent-primary)] animate-glow inline-block">
+            <span className="text-(--accent-primary) animate-glow inline-block">
               _
             </span>
           </motion.h1>
 
           <motion.h2
             variants={itemVariants}
-            className="text-3xl md:text-5xl lg:text-6xl font-bold text-[var(--text-secondary)] mb-4 sm:mb-6"
+            className="text-3xl md:text-5xl lg:text-6xl font-bold text-(--text-secondary) mb-4 sm:mb-6"
           >
             I solve{" "}
-            <span className="text-[var(--accent-primary)] glow-text">
+            <span className="text-(--accent-primary) glow-text">
               real-world
             </span>{" "}
             problems.
@@ -106,18 +106,18 @@ export function Hero() {
 
           <motion.p
             variants={itemVariants}
-            className="text-[var(--text-secondary)]  text-sm sm:text-base md:text-lg max-w-2xl leading-relaxed mb-8"
+            className="text-(--text-secondary)  text-sm sm:text-base md:text-lg max-w-2xl leading-relaxed mb-8"
           >
             I&apos;m Full-Stack Developer specializing in{" "}
-            <span className="text-[var(--accent-primary)] font-semibold">
+            <span className="text-(--accent-primary) font-semibold">
               Next.js
             </span>
             ,{" "}
-            <span className="text-[var(--accent-primary)] font-semibold">
+            <span className="text-(--accent-primary) font-semibold">
               Angular
             </span>
             , and{" "}
-            <span className="text-[var(--accent-primary)] font-semibold">
+            <span className="text-(--accent-primary) font-semibold">
               NestJS
             </span>
             , crafting scalable, production-ready applications that deliver
@@ -138,7 +138,7 @@ export function Hero() {
 
             <Link
               href="#projects"
-              className="group inline-flex items-center gap-2 px-6 sm:px-8 py-3 sm:py-4 border-2 border-[var(--accent-primary)] text-[var(--accent-primary)] rounded-lg hover:bg-[var(--accent-bg)] transition-all duration-300 font-mono text-sm cursor-pointer"
+              className="group inline-flex items-center gap-2 px-6 sm:px-8 py-3 sm:py-4 border-2 border-[var(--accent-primary)] text-(--accent-primary) rounded-lg hover:bg-[var(--accent-bg)] transition-all duration-300 font-mono text-sm cursor-pointer"
             >
               <span className="relative z-10">View Projects</span>
             </Link>
@@ -152,7 +152,7 @@ export function Hero() {
                   rel="noopener noreferrer"
                   whileHover={{ scale: 1.15, y: -3 }}
                   whileTap={{ scale: 0.9 }}
-                  className="text-[var(--text-secondary)] hover:text-[var(--accent-primary)] transition-all duration-300 text-2xl cursor-pointer"
+                  className="text-(--text-secondary) hover:text-(--accent-primary) transition-all duration-300 text-2xl cursor-pointer"
                   aria-label={social.label}
                 >
                   <social.icon />
@@ -178,7 +178,7 @@ export function Hero() {
             ].map((tech) => (
               <span
                 key={tech}
-                className="px-3 sm:px-4 py-1.5 sm:py-2 text-[11px] sm:text-xs font-mono text-[var(--accent-primary)] bg-[var(--accent-bg)] rounded-full border border-[var(--accent-border)] transition-all duration-300 cursor-default"
+                className="px-3 sm:px-4 py-1.5 sm:py-2 text-[11px] sm:text-xs font-mono text-(--accent-primary) bg-[var(--accent-bg)] rounded-full border border-(--accent-border) transition-all duration-300 cursor-default"
               >
                 {tech}
               </span>

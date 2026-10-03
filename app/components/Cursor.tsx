@@ -18,7 +18,7 @@ export function Cursor() {
         target.tagName === "A" ||
           target.tagName === "BUTTON" ||
           target.closest("a") !== null ||
-          target.closest("button") !== null
+          target.closest("button") !== null,
       );
     };
 
@@ -43,8 +43,10 @@ export function Cursor() {
         transition={{ type: "spring", damping: 30, stiffness: 200 }}
       >
         <div
-          className={`w-5 h-5 rounded-full border-2 border-accent ${
-            isHovering ? "bg-accent/20" : "bg-accent"
+          className={`w-5 h-5 rounded-full border-2 border-(--accent-border) ${
+            isHovering
+              ? "bg-[var(--accent-border)]/20"
+              : "bg-[var(--accent-border)]"
           }`}
         />
       </motion.div>
@@ -57,7 +59,7 @@ export function Cursor() {
         }}
         transition={{ type: "spring", damping: 20, stiffness: 150 }}
       >
-        <div className="w-1 h-1 rounded-full bg-accent/50" />
+        <div className="w-1 h-1 rounded-full bg-[var(--accent-border)]/50" />
       </motion.div>
     </>
   );
